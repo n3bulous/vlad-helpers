@@ -6,6 +6,7 @@ namespace :vlad do
       exit(-1)
     end
     set :domain, @domain_map[site]
+    set :rails_env, site
   end
 
   def custom_release(branch)
@@ -15,6 +16,15 @@ namespace :vlad do
       set :release_name, release_name + "_" + branch
       set :branch, branch
     end
+  end
+
+  remote_task "seed" do
+    run "cd #{current_path} && rake RAILS_ENV=#{rails_env} db:seed"
+  end
+
+  remote_task "symlink_database_yml" do
+    file = "database.yml"
+    run "ln -s #{shared_path}/config/#{file} #{release_path}/config/#{file}"
   end
 
   remote_task :set_perms do
