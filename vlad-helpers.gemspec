@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{vlad-helpers}
-  s.version = "0.0.2"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kevin McFadden"]
@@ -25,7 +25,8 @@ Gem::Specification.new do |s|
      "VERSION",
      "lib/vlad-helpers.rb",
      "test/helper.rb",
-     "test/test_vlad-helpers.rb"
+     "test/test_vlad-helpers.rb",
+     "vlad-helpers.gemspec"
   ]
   s.homepage = %q{http://github.com/n3bulous/vlad-helpers}
   s.rdoc_options = ["--charset=UTF-8"]
