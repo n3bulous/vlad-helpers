@@ -94,7 +94,7 @@ namespace :vlad do
       require_site(args[:site])
 
       Rake::Task['vlad:setup'].invoke
-      #Rake::Task['vlad:custom:share_config_dir'].invoke
+      Rake::Task['vlad:custom:share_config_dir'].invoke
       Rake::Task['vlad:set_perms'].invoke
     end
 
