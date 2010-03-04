@@ -1,10 +1,15 @@
 namespace :vlad do
-  def require_site(site)
+  def check_usage(site)
     if (site.nil? || site.size == 0)
       puts "Usage: rake vlad:custom:setup[<domain-key>]\n  e.g. rake vlad:custom:setup[www]"
       puts "       rake vlad:deploy[<domain-key>]\n  e.g. rake vlad:deploy[www]"
       exit(-1)
     end
+  end
+
+  def require_site(site)
+    check_usage(site)
+
     set :domain, @domain_map[site]
     set :rails_env, site
   end
