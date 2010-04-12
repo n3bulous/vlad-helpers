@@ -34,9 +34,9 @@ namespace :vlad do
 
   remote_task :set_perms do
     begin
-      run [ "sudo find #{deploy_to} -type f -exec chmod #{file_chmod_to} {} \\;",
-            "sudo find #{deploy_to} -type d -exec chmod #{dir_chmod_to} {} \\;",
-            "sudo chown -R #{chown_to} #{deploy_to}"].join(" && ")
+      run [ "sudo find #{release_path} -type f -exec chmod #{file_chmod_to} {} \\;",
+            "sudo find #{release_path} -type d -exec chmod #{dir_chmod_to} {} \\;",
+            "sudo chown -R #{chown_to} #{release_path}"].join(" && ")
     rescue => e
       raise e
     end
