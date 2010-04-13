@@ -16,11 +16,12 @@ namespace :vlad do
 
   def custom_release(branch)
     if (branch.nil? || branch.size == 0)
-      set :branch, nil
+      set :branch, 'master'
     else
-      set :release_name, release_name + "_" + branch
       set :branch, branch
     end
+
+    set :release_name, release_name + "_" + branch
   end
 
   remote_task "seed" do
@@ -43,20 +44,24 @@ namespace :vlad do
   end
 
   task :bundle do
-    if (application.size > 0)
-      git_cmd = branch ? "git clone -b #{branch} #{git_connection}:#{application}.git /tmp/#{release_name}" :
-                         "git clone #{git_connection}:#{application}.git /tmp/#{release_name}"
-
-
-
-      sh [  "rm -rf /tmp/#{release_name}",
-            git_cmd,
-            "cd /tmp && tar --exclude=.git -czf #{release_name}.tgz #{release_name}"
-        ].join(" && ")
-    else
+    if (application.size <= 0)
       puts "You must set the application name."
       exit(-1)
     end
+
+    if (local_repo_git_path.size > 0)
+      git_cmd = "git clone -l -b #{branch} #{local_repo_git_path} /tmp/#{release_name}"
+    else
+      # git_cmd = branch ? "git clone -b #{branch} #{git_connection}:#{application}.git /tmp/#{release_name}" :
+      #                    "git clone #{git_connection}:#{application}.git /tmp/#{release_name}"
+      git_cmd = "git clone -b #{branch} #{git_connection}:#{application}.git /tmp/#{release_name}"
+    end
+
+    sh [  "rm -rf /tmp/#{release_name}",
+          git_cmd,
+          "cd /tmp && tar --exclude=.git -czf #{release_name}.tgz #{release_name}"
+      ].join(" && ")
+
   end
 
   task :transfer do
