@@ -49,7 +49,7 @@ namespace :vlad do
       exit(-1)
     end
 
-    unless (local_repo_git_path.nil?)
+    if (!local_repo_git_path.nil? && local_repo_git_path.size > 0)
       git_cmd = "git clone -l -b #{branch} #{local_repo_git_path} /tmp/#{release_name}"
     else
       # git_cmd = branch ? "git clone -b #{branch} #{git_connection}:#{application}.git /tmp/#{release_name}" :
