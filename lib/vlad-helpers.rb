@@ -14,14 +14,13 @@ namespace :vlad do
     set :rails_env, site
   end
 
-  def custom_release(branch)
-    if (branch.nil? || branch.size == 0)
+  def custom_release(scm_branch)
+    if (scm_branch.nil? || scm_branch.size == 0)
       set :branch, 'master'
     else
-      set :branch, branch
+      set :branch, scm_branch
     end
-
-    set :release_name, release_name + "_" + branch
+    set :release_name, release_name + "_#{branch}"
   end
 
   remote_task "seed" do
