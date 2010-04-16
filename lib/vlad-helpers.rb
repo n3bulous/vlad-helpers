@@ -2,7 +2,7 @@ namespace :vlad do
   def check_usage(site)
     if (site.nil? || site.size == 0)
       puts "Usage: rake vlad:custom:setup[<domain-key>]\n  e.g. rake vlad:custom:setup[www]"
-      puts "       rake vlad:deploy[<domain-key>]\n  e.g. rake vlad:deploy[www]"
+      puts "       rake vlad:deploy[<domain-key>[,branch][,path-to-local-repo-dir]]\n  e.g. rake vlad:deploy[www]"
       exit(-1)
     end
   end
@@ -12,6 +12,15 @@ namespace :vlad do
 
     set :domain, @domain_map[site]
     set :rails_env, site
+  end
+
+  def local_repo(path)
+    if !path.nil? && !File.exists?(File.join(path, ".git"))
+      puts "ERROR: The path provided (#{path}) does not point to a git repo."
+      exit
+    end
+
+    set :local_repo_git_path, path
   end
 
   def custom_release(scm_branch)
