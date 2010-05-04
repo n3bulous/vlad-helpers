@@ -51,6 +51,16 @@ namespace :vlad do
     end
   end
 
+  remote_task :set_releases_perms do
+    begin
+      run [ "sudo find #{releases_path} -type f -exec chmod #{file_chmod_to} {} \\;",
+            "sudo find #{releases_path} -type d -exec chmod #{dir_chmod_to} {} \\;",
+            "sudo chown -R #{chown_to} #{releases_path}"].join(" && ")
+    rescue => e
+      raise e
+    end
+  end
+
   task :bundle do
     if (application.size <= 0)
       puts "You must set the application name."
@@ -113,7 +123,7 @@ namespace :vlad do
 
       Rake::Task['vlad:setup'].invoke
       Rake::Task['vlad:custom:share_config_dir'].invoke
-      Rake::Task['vlad:set_perms'].invoke
+      Rake::Task['vlad:set_releases_perms'].invoke
     end
 
     remote_task :share_config_dir do
